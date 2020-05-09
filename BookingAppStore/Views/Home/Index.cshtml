@@ -1,0 +1,45 @@
+﻿@model BookingAppStore.Models.User
+@{
+     ViewBag.Title = "Online book storage";
+}
+
+<a href="/Home/Create">Создать</a>
+<br />
+@if (!User.Identity.IsAuthenticated)
+{
+     @Html.ActionLink("Войти в аккаунт", "Login", "Account")
+     <br />
+
+     @Html.ActionLink("Регистрация", "Register", "Account")
+}
+else
+{
+     @Html.ActionLink("Выйти из аккаунта", "Logout", "Account")
+}
+<div>
+     <h3>Список работ</h3>
+     <table>
+          <tr>
+               <td><p>Название предмета</p></td>
+               <td><p>Номер лаб.раб.</p></td>
+               <td><p>Вариант</p></td>
+               <td></td>
+          </tr>
+          @foreach (var b in ViewBag.Books)
+          {
+               <tr>
+                    <td><p>@b.Name</p></td>
+                    <td><p>@b.Author</p></td>
+                    <td><p>@b.Price</p></td>
+                    <td><p><a href="@Url.Action("Buy","Home", new { @id = b.Id })">Купить</a></p></td>
+                    <td><p><a href="@Url.Action("Download","Home", new { @id = b.Id })">Cкачать</a></p></td>
+
+                    @if (User.Identity.IsAuthenticated && Model.Role == "admin")
+                    {
+
+                    <td><p><a href="@Url.Action("Delete","Home", new { @id = b.Id })">Удалить</a></p></td>
+                    }
+               </tr>
+          }
+     </table>
+</div>

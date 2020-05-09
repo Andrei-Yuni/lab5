@@ -1,0 +1,26 @@
+﻿@model BookingAppStore.Models.Book
+
+<h2>Новая книга</h2>
+
+@using (Html.BeginForm("Create", "Home", FormMethod.Post, new {enctype="multipart/form-data"}))
+{
+     @Html.LabelFor(model => model.Name, "Название предмета")
+     <br />
+     @Html.EditorFor(model => model.Name)
+     <br />
+     <br />
+     @Html.LabelFor(model => model.Author, "Номер лаб. раб.")
+     <br />
+     @Html.EditorFor(model => model.Author)
+     <br />
+     <br />
+     @Html.LabelFor(model => model.Price, "Вариант")
+     <br />
+     @Html.EditorFor(model => model.Price)
+     <br />
+     <br />
+     <input type="file" id="fileToUpload" name="File" required />
+     <br />
+     <br />
+     <input type="submit" value="Добавить" />
+}

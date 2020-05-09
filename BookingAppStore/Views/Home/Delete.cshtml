@@ -1,0 +1,29 @@
+﻿@model BookingAppStore.Models.Book
+
+@{
+     ViewBag.Title = "Delete";
+}
+
+<h2>Удаление книги</h2>
+<dl>
+     <dt>Название предмета</dt>
+     <dd>
+          @Html.DisplayFor(model => model.Name)
+     </dd>
+
+     <dt>Номер лаб. раб.</dt>
+     <dd>
+          @Html.DisplayFor(model => model.Author)
+     </dd>
+
+     <dt>Вариант</dt>
+     <dd>
+          @Html.DisplayFor(model => model.Price)
+     </dd>
+</dl>
+
+@using (Html.BeginForm())
+{
+     <input type="submit" value="Удалить" />
+}
+
