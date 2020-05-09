@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BookingAppStore.Attributes;
 using BookingAppStore.Models;
 
 namespace BookingAppStore.Controllers
@@ -31,6 +32,7 @@ namespace BookingAppStore.Controllers
           {
                return View();
           }
+          [Authorize]
           [HttpPost]
           public ActionResult Create(Book book, HttpPostedFileBase file)
           {
@@ -65,7 +67,8 @@ namespace BookingAppStore.Controllers
           }
 
 
-
+          [Authorize]
+          [MyAuthorize(Roles = "admin")]
           [HttpGet]
           public ActionResult Delete(int id)
           {
@@ -76,6 +79,8 @@ namespace BookingAppStore.Controllers
                }
                return View(b);
           }
+          [Authorize]
+          [MyAuthorize(Roles = "admin")]
           [HttpPost, ActionName("Delete")]
           public ActionResult DeleteConfirmed(int id)
           {
