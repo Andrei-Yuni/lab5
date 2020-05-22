@@ -1,4 +1,4 @@
-﻿@model BookingAppStore.Models.Book
+﻿@model BokingAppStore.BLL.DataTransfer.BookDTO
 
 @{
      ViewBag.Title = "Delete";
@@ -13,12 +13,12 @@
 
      <dt>Номер лаб. раб.</dt>
      <dd>
-          @Html.DisplayFor(model => model.Author)
+          @Html.DisplayFor(model => model.NumberLab)
      </dd>
 
      <dt>Вариант</dt>
      <dd>
-          @Html.DisplayFor(model => model.Price)
+          @Html.DisplayFor(model => model.Variant)
      </dd>
 </dl>
 

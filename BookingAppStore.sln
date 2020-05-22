@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingAppStore", "BookingAppStore\BookingAppStore.csproj", "{19E8C4A2-D479-4BCD-8262-94F2174ED49C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingAppStore.DAL", "BookingAppStore.DL\BookingAppStore.DAL.csproj", "{2B5993DD-18BD-4D27-9494-129BE80C066E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BokingAppStore.BLL", "BokingAppStore.BLL\BokingAppStore.BLL.csproj", "{DA5B688A-9D4D-44F1-ADD0-C5D396C1378E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{19E8C4A2-D479-4BCD-8262-94F2174ED49C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19E8C4A2-D479-4BCD-8262-94F2174ED49C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19E8C4A2-D479-4BCD-8262-94F2174ED49C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B5993DD-18BD-4D27-9494-129BE80C066E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B5993DD-18BD-4D27-9494-129BE80C066E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B5993DD-18BD-4D27-9494-129BE80C066E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B5993DD-18BD-4D27-9494-129BE80C066E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA5B688A-9D4D-44F1-ADD0-C5D396C1378E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA5B688A-9D4D-44F1-ADD0-C5D396C1378E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA5B688A-9D4D-44F1-ADD0-C5D396C1378E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA5B688A-9D4D-44F1-ADD0-C5D396C1378E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-﻿@model BookingAppStore.Models.User
+﻿@model BookingAppStore.Models.HomePageModel
 @{
      ViewBag.Title = "Online book storage";
 }
@@ -25,16 +25,15 @@ else
                <td><p>Вариант</p></td>
                <td></td>
           </tr>
-          @foreach (var b in ViewBag.Books)
+          @foreach (var b in Model.Books)
           {
                <tr>
                     <td><p>@b.Name</p></td>
-                    <td><p>@b.Author</p></td>
-                    <td><p>@b.Price</p></td>
-                    <td><p><a href="@Url.Action("Buy","Home", new { @id = b.Id })">Купить</a></p></td>
+                    <td><p>@b.NumberLab</p></td>
+                    <td><p>@b.Variant</p></td>
                     <td><p><a href="@Url.Action("Download","Home", new { @id = b.Id })">Cкачать</a></p></td>
 
-                    @if (User.Identity.IsAuthenticated && Model.Role == "admin")
+                    @if (User.Identity.IsAuthenticated && Model.User.Role == "admin")
                     {
 
                     <td><p><a href="@Url.Action("Delete","Home", new { @id = b.Id })">Удалить</a></p></td>

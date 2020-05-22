@@ -4,27 +4,24 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BokingAppStore.BLL;
+using BokingAppStore.BLL.DataTransfer;
+using BokingAppStore.BLL.Interface;
 using BookingAppStore.Attributes;
 using BookingAppStore.Models;
 
 namespace BookingAppStore.Controllers
 {
-     public class HomeController : Controller
+     public class HomeController : BaseController
      {
-          BookContext db = new BookContext();
-         
-          
           public ActionResult Index()
           {
-               var books = db.Books;
-               ViewBag.Books = books;
-               User user = null;
+               var books = BookAPI.GetAllBooks();
+               UserDTO user = null;
                if (User.Identity.IsAuthenticated)
-               using (var db = new UserContext())
-               {
-                    user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
-               }
-               return View(user);
+                    user = UserAPI.GetUser(User.Identity.Name);
+               var model = new HomePageModel { Books = books, User = user };
+               return View(model);
           }
           [Authorize]
           [HttpGet]
@@ -34,34 +31,18 @@ namespace BookingAppStore.Controllers
           }
           [Authorize]
           [HttpPost]
-          public ActionResult Create(Book book, HttpPostedFileBase file)
+          public ActionResult Create(BookModel book, HttpPostedFileBase file)
           {
+
                if (ModelState.IsValid)
                {
-                    if (file != null)
-                    {
-                         var directory = Server.MapPath("~/Files");
-                         var extention = Path.GetExtension(file.FileName);
-                         if (extention == ".pdf" || extention == ".docx" || extention == ".doc")
-                         {
-                              var fileName = Path.GetFileName(file.FileName);
-                              var realFileName =fileName;
-                              while (db.Books.Where(b => b.RealFileName == realFileName).FirstOrDefault() != null)
-                              {
-                                   var fileNameWithoutExt = Path.GetFileNameWithoutExtension(realFileName);
-                                   realFileName = fileNameWithoutExt + "1" + extention;
-                              }
-                              if (!Directory.Exists(directory))
-                                   Directory.CreateDirectory(directory);
-                              file.SaveAs(directory + "/" + realFileName);
-                              book.FileName = fileName;
-                              book.RealFileName = realFileName;
-                         }
-                    }
-                    db.Books.Add(book);
-                    db.SaveChanges();
+                    var bookDTO = new BookDTO { Name = book.Name, NumberLab = book.NumberLab, Variant = book.Variant };
 
-                    return RedirectToAction("Index");
+                    var directory = Server.MapPath("~/Files");
+                    var result = UserAPI.Upload(bookDTO, file, directory);
+                    if (result.Succeeded)
+                         return RedirectToAction("Index");
+                    ModelState.AddModelError("", result.Error);
                }
                return View(book);
           }
@@ -72,7 +53,7 @@ namespace BookingAppStore.Controllers
           [HttpGet]
           public ActionResult Delete(int id)
           {
-               Book b = db.Books.Find(id);
+               var b = BookAPI.GetBook(id);
                if (b == null)
                {
                     return HttpNotFound();
@@ -84,38 +65,16 @@ namespace BookingAppStore.Controllers
           [HttpPost, ActionName("Delete")]
           public ActionResult DeleteConfirmed(int id)
           {
-               Book b = db.Books.Find(id);
-               if (b == null)
-               {
-                    return HttpNotFound();
-               }
-               db.Books.Remove(b);
-               db.SaveChanges();
+               AdminAPI.DeleteBook(id);
                return RedirectToAction("Index");
           }
 
-          [HttpGet]
-          public ActionResult Buy(int id)
-          {
-               ViewBag.Books = id;
-               return View();
-          }
 
-          [HttpPost]
-          public string Buy(Purchase purchase)
-          {
-               purchase.Date = DateTime.Now;
-               // добавляем информацию о покупке в базу данных
-               db.Purchases.Add(purchase);
-               // сохраняем в бд все изменения
-               db.SaveChanges();
-               return "Спасибо," + purchase.Person + ", за покупку!";
-          }
 
           [HttpGet]
           public FileResult Download(int id)
           {
-               var book = db.Books.Find(id);
+               var book = BookAPI.GetBook(id);
                var filePath = Server.MapPath("~/Files/" + book.RealFileName);
                var contentType = MimeMapping.GetMimeMapping(book.RealFileName);
                return File(filePath, contentType, book.FileName);

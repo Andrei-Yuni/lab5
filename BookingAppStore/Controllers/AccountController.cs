@@ -1,4 +1,6 @@
-﻿using BookingAppStore.Models;
+﻿using BokingAppStore.BLL.DataTransfer;
+using BokingAppStore.BLL.Interface;
+using BookingAppStore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Web.Security;
 
 namespace BookingAppStore.Controllers
 {
-     public class AccountController : Controller
+     public class AccountController : BaseController
      {
 
           public ActionResult Login()
@@ -22,18 +24,15 @@ namespace BookingAppStore.Controllers
           {
                if (ModelState.IsValid)
                {
-                    User user = null;
-                    using (var db = new UserContext())
+                    var user = new UserDTO { Email = model.Email, Password = model.Password };
+                    var result = UserAPI.Login(user);
+                    if (result.Succeeded)
                     {
-                         user = db.Users.FirstOrDefault(u => u.Email == model.Name && u.Password == model.Password);
-                    }
-                    if (user != null)
-                    {
-                         FormsAuthentication.SetAuthCookie(model.Name, true);
+                         FormsAuthentication.SetAuthCookie(model.Email, true);
                          return RedirectToAction("Index", "Home");
                     }
+                    ModelState.AddModelError("", result.Error);
                }
-               ModelState.AddModelError("", "Неверные данные для входа");
                return View(model);
           }
           public ActionResult Register()
@@ -46,31 +45,17 @@ namespace BookingAppStore.Controllers
           {
                if (ModelState.IsValid)
                {
-                    User user = null;
-                    using (UserContext db = new UserContext())
-                    {
-                         user = db.Users.FirstOrDefault(u => u.Email == model.Name);
-                    }
-                    if (user == null)
-                    {
-                         // создаем нового пользователя
-                         using (UserContext db = new UserContext())
-                         {
-                              _ = db.Users.Add(new User { Email = model.Name, Password = model.Password, Age = model.Age, Role="user" });
-                              db.SaveChanges();
+                    var user = new UserDTO { Email = model.Email, Password = model.Password, Age = model.Age, Role = "user" };
+                    var result = UserAPI.Register(user);
 
-                              user = db.Users.Where(u => u.Email == model.Name && u.Password == model.Password).FirstOrDefault();
-                         }
-                         // если пользователь удачно добавлен в бд
-                         if (user != null)
-                         {
-                              FormsAuthentication.SetAuthCookie(model.Name, true);
-                              return RedirectToAction("Index", "Home");
-                         }
+                    if (result.Succeeded)
+                    {
+                         FormsAuthentication.SetAuthCookie(model.Email, true);
+                         return RedirectToAction("Index", "Home");
                     }
                     else
                     {
-                         ModelState.AddModelError("", "Пользователь с таким логином уже существует");
+                         ModelState.AddModelError(result.ErrorReason, result.Error);
                     }
                }
 

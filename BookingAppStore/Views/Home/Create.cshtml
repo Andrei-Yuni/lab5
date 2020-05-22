@@ -1,4 +1,4 @@
-﻿@model BookingAppStore.Models.Book
+﻿@model BookingAppStore.Models.BookModel
 
 <h2>Новая книга</h2>
 
@@ -9,14 +9,14 @@
      @Html.EditorFor(model => model.Name)
      <br />
      <br />
-     @Html.LabelFor(model => model.Author, "Номер лаб. раб.")
+     @Html.LabelFor(model => model.NumberLab, "Номер лаб. раб.")
      <br />
-     @Html.EditorFor(model => model.Author)
+     @Html.EditorFor(model => model.NumberLab)
      <br />
      <br />
-     @Html.LabelFor(model => model.Price, "Вариант")
+     @Html.LabelFor(model => model.Variant, "Вариант")
      <br />
-     @Html.EditorFor(model => model.Price)
+     @Html.EditorFor(model => model.Variant)
      <br />
      <br />
      <input type="file" id="fileToUpload" name="File" required />

@@ -1,6 +1,4 @@
-﻿
-using BookingAppStore.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -15,7 +13,6 @@ namespace BookingAppStore
      {
           protected void Application_Start()
           {
-               Database.SetInitializer(new AdminInitializer());
                AreaRegistration.RegisterAllAreas();
                FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
                RouteConfig.RegisterRoutes(RouteTable.Routes);

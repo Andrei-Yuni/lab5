@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BookingAppStore.Models
+namespace BookingAppStore.DAL.Entities
 {
      public class User
      {
@@ -12,6 +12,7 @@ namespace BookingAppStore.Models
           public string Password { get; set; }
           public int Age { get; set; }
           public string Role { get; set; }
+      
 
      }
 

@@ -6,25 +6,14 @@ using System.Web;
 
 namespace BookingAppStore.Models
 {
-     public class LoginModel
+     public class RegisterModel
      {
           [Required]
-          public string Name { get; set; }
+          [DataType(DataType.EmailAddress)]
+          public string Email { get; set; }
           [Required]
           [DataType(DataType.Password)]
           public string Password { get; set; }
-     }
-
-     public class RegisterModel
-     {
-          [Required] 
-          public string Name { get; set; }
-          [Required]
-          [DataType(DataType.Password)]
-          public string Password { get; set; } 
           public int Age { get; set; }
-
-
-          
      }
 }
