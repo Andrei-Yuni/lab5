@@ -9,14 +9,12 @@ namespace BokingAppStore.BLL.DataTransfer
      public class BookDTO
      {
           // ID книги
-
           public int Id { get; set; }
           // название книги
-
           public string Name { get; set; }
-          // автор книги
+          // номер лаб.работы
           public int NumberLab { get; set; }
-          // цена
+          // вариант
           public int Variant { get; set; }
           public string FileName { get; set; }
           public string RealFileName { get; set; }
